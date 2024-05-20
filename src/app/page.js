@@ -1,95 +1,98 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client";
 
-export default function Home() {
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import PostCard from "@/components/postCard/PostCard";
+import useScreenSize from "@/hooks/useScreenSize";
+import useFetchData from "@/hooks/useFetchData ";
+import Skeleton from "@mui/material/Skeleton";
+import Box from "@mui/material/Box";
+import { useMyContext } from "@/context";
+
+const Home = () => {
+  const [isOn, setIsOn] = useState(false);
+  const [num, setNum] = useState([]);
+
+  const { data, loading } = useMyContext();
+
+  const isSmallScreen = useScreenSize();
+
+  const router = useRouter();
+
+  const handleClick = (id) => {
+    //  setIsOn(!isOn);
+    // Llamar a otra función aquí si es necesario
+    // router.push("/blog");
+    console.log(id);
+  };
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.js</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
+    <>
+      <br />
+      <br />
+      <br />
+
+      {!isSmallScreen && (
+        <>
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+        </>
+      )}
+      <div className="home">
+        {!loading ? (
+          data?.map(({ image, description, title, id }) => (
+            <PostCard
+              handleClick={handleClick}
+              image={image}
+              title={title}
+              description={description}
+              loading={loading}
+              key={id}
+              id={id}
             />
-          </a>
-        </div>
+          ))
+        ) : (
+          <div style={skel} className="home">
+            {Array.from({ length: 10 }).map((_, index) => (
+              <>
+                <div>
+                  <Skeleton
+                    key={index}
+                    sx={{ bgcolor: "#d3d3d366" }}
+                    variant="rectangular"
+                    // width={289}
+                    height={300}
+                  />
+                  <br />
+                  <Box sx={{ pt: 0.5 }}>
+                    <Skeleton sx={{ bgcolor: "#d3d3d366" }} />
+                    <Skeleton sx={{ bgcolor: "#d3d3d366" }} width="60%" />
+                    <Skeleton sx={{ bgcolor: "#d3d3d366" }} width="15%" />
+                  </Box>
+                </div>
+              </>
+            ))}
+          </div>
+        )}
       </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+      <br />
+      <br />
+      <br />
+      <br />
+    </>
   );
-}
+};
+
+const load = {
+  display: "block",
+  gridColumn: "1 / 5",
+  textAlign: "center",
+};
+const skel = {
+  gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
+};
+
+export default Home;
