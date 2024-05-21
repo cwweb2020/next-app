@@ -114,7 +114,7 @@ button {
 }
 
 .loading {
-  @include flex;
+  @include flex($dir: column, $align: start);
 }
 
 .active {

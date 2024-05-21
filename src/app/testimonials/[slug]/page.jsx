@@ -25,6 +25,7 @@ const SinglePostPage = async ({ params }) => {
 
       <br />
       <br />
+
       <section style={container}>
         <div className="img-container-blog">
           <Image

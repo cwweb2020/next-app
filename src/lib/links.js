@@ -3,6 +3,7 @@ export const routes = [
   { name: "contact", path: "/contact" },
   { name: "about", path: "/about" },
   { name: "blog", path: "/blog" },
+  { name: "testimonials", path: "/testimonials" },
 ];
 
 // useEffect(() => {

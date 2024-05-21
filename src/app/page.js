@@ -1,19 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import PostCard from "@/components/postCard/PostCard";
 import useScreenSize from "@/hooks/useScreenSize";
 import useFetchData from "@/hooks/useFetchData ";
 import Skeleton from "@mui/material/Skeleton";
 import Box from "@mui/material/Box";
-import { useMyContext } from "@/context";
 
 const Home = () => {
-  const [isOn, setIsOn] = useState(false);
-  const [num, setNum] = useState([]);
-
-  const { data, loading } = useMyContext();
+  const { data, loading } = useFetchData("https://fakestoreapi.com/products");
 
   const isSmallScreen = useScreenSize();
 
@@ -22,7 +17,7 @@ const Home = () => {
   const handleClick = (id) => {
     //  setIsOn(!isOn);
     // Llamar a otra función aquí si es necesario
-    // router.push("/blog");
+    router.push("/blog");
     console.log(id);
   };
 

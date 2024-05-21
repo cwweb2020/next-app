@@ -1,4 +1,5 @@
 "use client";
+import useFetchData from "@/hooks/useFetchData ";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 
@@ -11,6 +12,10 @@ const SinglePostPag = () => {
   const searchParams = useSearchParams();
 
   const q = searchParams.get("q");
+
+  const { data, loading } = useFetchData(
+    "https://jsonplaceholder.typicode.com/posts"
+  );
 
   return (
     <>
@@ -34,23 +39,15 @@ const SinglePostPag = () => {
           <span style={{ color: "#fff" }}>|</span>
           <p style={{ fontSize: "17px" }}>{withoutBar} </p>
         </div>
-        <h2 style={{ margin: "50px 0", textAlign: "center" }}>
-          Bienvenido al blog
-        </h2>
-        <div className="loading">
-          <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Optio
-            possimus accusamus ipsum, nulla voluptatem laboriosam corrupti ipsa,
-            autem, obcaecati error repellendus. Eos qui amet veniam voluptatem
-            nostrum, commodi quasi incidunt!
-          </p>
-          <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Optio
-            possimus accusamus ipsum, nulla voluptatem laboriosam corrupti ipsa,
-            autem, obcaecati error repellendus. Eos qui amet veniam voluptatem
-            nostrum, commodi quasi incidunt!
-          </p>
-        </div>
+
+        {data?.map(({ title, body, userId, id }) => (
+          <>
+            <div style={link} className="loading" key={userId}>
+              <h2>{title}</h2>
+              <p>{body}</p>
+            </div>
+          </>
+        ))}
       </section>
       <br />
       <br />
@@ -59,9 +56,11 @@ const SinglePostPag = () => {
   );
 };
 
-// const link = {
-//   color: "white",
-//   fontSize: "18px",
-// };
+const link = {
+  width: "40%",
+  padding: "20px",
+  border: "2px solid white",
+  margin: "50px 0 18px 25px",
+};
 
 export default SinglePostPag;
